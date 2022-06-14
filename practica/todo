@@ -1,0 +1,7 @@
+rows = cursor.execute("SELECT ID_Genero FROM Genero;").fetchall()
+    for row in rows:
+        logger.info(row)
+        logger.info(row.ID_Genero)
+
+
+        (idArtist, idSong, popularity, danceability, energy, llave, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo)

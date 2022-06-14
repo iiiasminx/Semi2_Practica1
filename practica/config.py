@@ -1,0 +1,5 @@
+driver = "ODBC Driver 17 for SQL Server"
+server = "GTTI-108692"
+sql_user ="user"
+sql_password = "1234"
+database="Semi2_P1"
