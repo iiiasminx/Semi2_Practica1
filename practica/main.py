@@ -164,10 +164,39 @@ def consultar():
 
     elif consulta == "4":
         logger.info("consulta 4") 
+
+        consulta4 = (f'Select g.Name, a.Name as Artista, count(a.Name) as Reproducciones from Artist a, Hechos h, Song s, DetalleAsignacion d, Genero g where a.ID_Artist = h.id_Artist and h.id_Song = s.ID_Song and s.ID_Song = d.id_Song and d.id_Genero = g.ID_Genero and a.Name in ( select top (1) r.Name from Artist r, Hechos e, Song o, DetalleAsignacion t, Genero n where r.ID_Artist = e.id_Artist and e.id_Song = o.ID_Song and o.ID_Song = t.id_Song and t.id_Genero = n.ID_Genero and n.ID_Genero = g.ID_Genero group by r.Name order by count(r.Name) desc ) group by g.Name, g.ID_Genero, a.Name order by count(a.Name) desc') 
+        rows = cursor.execute(consulta4).fetchall()
+
+        print("4. El artista más reproducido de cada género -------------------------")
+        print("Genero   |   Artista   |   Reproducciones")
+        for row in rows:
+            print(row.Name, "| ", row.Artista, "| ", row.Reproducciones)
+    
     elif consulta == "5":
         logger.info("consulta 5") 
+        
+        consulta5 = (f'Select g.Name, s.Name as Cancion, count(s.Name) as Reproducciones from Hechos h, Song s, DetalleAsignacion d, Genero g where h.id_Song = s.ID_Song and s.ID_Song = d.id_Song and d.id_Genero = g.ID_Genero and s.Name in ( select top (1) o.Name from Song o, Hechos e, DetalleAsignacion t, Genero n where e.id_Song = o.ID_Song and o.ID_Song = t.id_Song and t.id_Genero = n.ID_Genero and n.ID_Genero = g.ID_Genero group by o.Name order by count(o.Name) desc ) group by g.Name, s.Name order by count(s.Name) desc') 
+        rows = cursor.execute(consulta5).fetchall()
+
+        print("5. La canción más reproducida por cada género -------------------------")
+        print("Genero   |   Cancion   |   Reproducciones")
+        for row in rows:
+            print(row.Name, "| ", row.Cancion, "| ", row.Reproducciones)
+        
+
     elif consulta == "6":
         logger.info("consulta 6") 
+
+        consulta6 = (f'select s.year, s.Name as Cancion, count(h.id_Song) as Reproducciones from Hechos h, Song s where s.ID_Song = h.id_Song and s.ID_Song in ( select top (1) o.ID_Song from Hechos e, Song o where o.ID_Song = e.id_Song and o.year = s.year group by o.ID_Song order by count(o.ID_Song) desc ) group by h.id_Artist, h.id_Song, s.Name, s.year order by s.year desc') 
+        rows = cursor.execute(consulta6).fetchall()
+
+        print("6. La canción más reproducida por año de lanzamiento -------------------------")
+        print("Año   |   Cancion   |   Reproducciones")
+        for row in rows:
+            print(row.year, "| ", row.Cancion, "| ", row.Reproducciones)
+        
+
     elif consulta == "7":
         logger.info("consulta 7") 
 
@@ -203,6 +232,15 @@ def consultar():
 
     elif consulta == "10":
         logger.info("consulta 10") 
+
+        consulta10 = (f'Select g.Name, s.Name as Cancion, count(s.Name) as Reproducciones from Hechos h, Song s, DetalleAsignacion d, Genero g where h.id_Song = s.ID_Song and s.ID_Song = d.id_Song and d.id_Genero = g.ID_Genero and s.Name in ( select top (1) o.Name from Song o, Hechos e, DetalleAsignacion t, Genero n where e.id_Song = o.ID_Song and o.ID_Song = t.id_Song and t.id_Genero = n.ID_Genero and n.ID_Genero = g.ID_Genero and o.explicit = 1 group by o.Name order by count(o.Name) desc ) group by g.Name, s.Name order by count(s.Name) desc') 
+        rows = cursor.execute(consulta10).fetchall()
+
+        print("10. La canción explícita más reproducida por género -------------------------")
+        print("Genero   |   Cancion   |   Reproducciones")
+        for row in rows:
+            print(row.Name, "| ", row.Cancion, "| ", row.Reproducciones)
+
         
 
 
