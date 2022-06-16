@@ -20,3 +20,5 @@ INSERT INTO [dbo].[Hechos]
 GO
 
 
+select * from Hechos
+
