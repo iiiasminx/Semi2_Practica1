@@ -122,5 +122,23 @@ group by g.ID_Genero, g.Name
 order by AVG(h.popularity) desc
 
 
+-- 10. La canción explícita más reproducida por género 
 
-
+Select g.Name, s.Name as Cancion, count(s.Name) as Reproducciones
+from Hechos h, Song s, DetalleAsignacion d, Genero g
+where h.id_Song = s.ID_Song
+and s.ID_Song = d.id_Song
+and d.id_Genero = g.ID_Genero
+and s.Name in (
+select top (1) o.Name
+from Song o, Hechos e, DetalleAsignacion t, Genero n
+where e.id_Song = o.ID_Song
+and o.ID_Song = t.id_Song
+and t.id_Genero = n.ID_Genero
+and n.ID_Genero = g.ID_Genero
+and o.explicit = 1
+group by o.Name
+order by count(o.Name) desc
+)
+group by g.Name, s.Name
+order by count(s.Name) desc
